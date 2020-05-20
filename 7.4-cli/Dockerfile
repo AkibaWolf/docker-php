@@ -8,8 +8,8 @@ ENV USER_SHELL /bin/bash
 
 ENV GEOIP_VERSION 1.1.1
 ENV MCRYPT_VERSION 1.0.3
-ENV MEMCACHED_VERSION 3.1.3
-ENV PHPREDIS_VERSION 5.0.2
+ENV MEMCACHED_VERSION 3.1.5
+ENV PHPREDIS_VERSION 5.2.2
 
 # Set up environment, build & install required packages
 RUN echo "### Create user & group" \
@@ -87,9 +87,9 @@ RUN echo "### Create user & group" \
     && docker-php-ext-configure intl \
     && docker-php-ext-install intl \
     \
-    && echo "### Install OPcache PHP extension" \
+    && echo "### Install MBString (Multibyte String) PHP extension" \
     \
-    && docker-php-ext-install opcache \
+    && docker-php-ext-install mbstring \
     \
     && echo "### Install Mcrypt PHP extension" \
     \
@@ -116,6 +116,10 @@ RUN echo "### Create user & group" \
     \
     && docker-php-ext-install mysqli \
     \
+    && echo "### Install OPcache PHP extension" \
+    \
+    && docker-php-ext-install opcache \
+    \
     && echo "### Install PDO MySQL PHP extension" \
     \
     && docker-php-ext-install pdo_mysql \
@@ -134,7 +138,7 @@ RUN echo "### Create user & group" \
 COPY config/php.ini /usr/local/etc/php/php.ini
 
 # Declare volumes
-VOLUME ["/data"]
+VOLUME ["/app"]
 
 # Set working directory
-WORKDIR /data
+WORKDIR /app

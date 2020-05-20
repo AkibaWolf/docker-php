@@ -1,4 +1,4 @@
-FROM php:7.0-cli-stretch
+FROM php:7.4-fpm-buster
 
 # Set environment variables
 ENV USER_LOGIN user
@@ -7,8 +7,14 @@ ENV USER_GID 1000
 ENV USER_SHELL /bin/bash
 
 ENV GEOIP_VERSION 1.1.1
+ENV MCRYPT_VERSION 1.0.3
 ENV MEMCACHED_VERSION 3.1.5
 ENV PHPREDIS_VERSION 5.2.2
+
+ENV FPM_USER www-data
+ENV FPM_GROUP www-data
+ENV FPM_HOST 127.0.0.1
+ENV FPM_PORT 9000
 
 # Set up environment, build & install required packages
 RUN echo "### Create user & group" \
@@ -48,8 +54,8 @@ RUN echo "### Create user & group" \
         libpng-dev \
         zlib1g-dev \
     && docker-php-ext-configure gd \
-        --with-freetype-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ \
+        --with-freetype=/usr/include/ \
+        --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd \
     \
     && echo "### Install Gearman PHP extension" \
@@ -94,7 +100,8 @@ RUN echo "### Create user & group" \
     \
     && apt-get install -y \
         libmcrypt-dev \
-    && docker-php-ext-install mcrypt \
+    && pecl install mcrypt-$MCRYPT_VERSION \
+    && docker-php-ext-enable mcrypt \
     \
     && echo "### Install Memcached PHP extension" \
     \
@@ -134,9 +141,20 @@ RUN echo "### Create user & group" \
 
 # Copy configuration files
 COPY config/php.ini /usr/local/etc/php/php.ini
+COPY config/php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY config/php-fpm.d/docker.conf /usr/local/etc/php-fpm.d/docker.conf
+COPY config/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY config/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+
+# Expose FPM port
+EXPOSE ${FPM_PORT}
 
 # Declare volumes
 VOLUME ["/app"]
 
 # Set working directory
 WORKDIR /app
+
+# Configure entry point
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]

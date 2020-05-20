@@ -10,6 +10,7 @@
 - [`7.2-cli` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.2-cli/Dockerfile)
 - [`7.3-cli` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.3-cli/Dockerfile)
 - [`7.4-cli`, `latest` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.4-cli/Dockerfile)
+- [`7.4-fpm` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.4-fpm/Dockerfile)
 
 ## Pre-installed packages
 
@@ -31,10 +32,11 @@
 - `geoip`
 - `imagick`
 - `intl`
-- `opcache`
+- `mbstring`
 - `mcrypt`
 - `memcached`
 - `mysqli`
+- `opcache`
 - `pdo_mysql`
 - `redis`
 
@@ -67,5 +69,14 @@ docker run --rm -it akibawolf/php:latest bash
 | upload_max_filesize    | 128M                              |
 | max_file_uploads       | 20                                |
 | date.timezone          | Asia/Tashkent                     |
+
+## FPM environment variables
+
+| Name      | Default value |
+| --------- | ------------- |
+| FPM_USER  | www-data      |
+| FPM_GROUP | www-data      |
+| FPM_HOST  | 127.0.0.1     |
+| FPM_PORT  | 9000          |
 
 You can also inject your version of php.ini file to `/usr/local/etc/php/php.ini` as needed.
