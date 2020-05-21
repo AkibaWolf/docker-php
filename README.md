@@ -1,14 +1,18 @@
 # PHP
-[![](https://images.microbadger.com/badges/image/akibawolf/php.svg)](https://microbadger.com/images/akibawolf/php) [![](https://images.microbadger.com/badges/version/akibawolf/php.svg)](https://microbadger.com/images/akibawolf/php)
+
 
 `akibawolf/php` packages recent versions of PHP using Debian as the base image.
 
 ## Supported tags and respective `Dockerfile` links
 
 - [`7.0-cli` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.0-cli/Dockerfile)
+- [`7.0-fpm` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.0-fpm/Dockerfile)
 - [`7.1-cli` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.1-cli/Dockerfile)
+- [`7.1-fpm` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.1-fpm/Dockerfile)
 - [`7.2-cli` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.2-cli/Dockerfile)
+- [`7.2-fpm` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.2-fpm/Dockerfile)
 - [`7.3-cli` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.3-cli/Dockerfile)
+- [`7.3-fpm` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.3-fpm/Dockerfile)
 - [`7.4-cli`, `latest` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.4-cli/Dockerfile)
 - [`7.4-fpm` (*Dockerfile*)](https://github.com/AkibaWolf/docker-php/tree/master/7.4-fpm/Dockerfile)
 
@@ -76,7 +80,7 @@ docker run --rm -it akibawolf/php:latest bash
 | --------- | ------------- |
 | FPM_USER  | www-data      |
 | FPM_GROUP | www-data      |
-| FPM_HOST  | 127.0.0.1     |
+| FPM_HOST  | 0.0.0.0       |
 | FPM_PORT  | 9000          |
 
 You can also inject your version of php.ini file to `/usr/local/etc/php/php.ini` as needed.

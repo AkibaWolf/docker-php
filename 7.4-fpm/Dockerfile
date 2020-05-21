@@ -13,7 +13,7 @@ ENV PHPREDIS_VERSION 5.2.2
 
 ENV FPM_USER www-data
 ENV FPM_GROUP www-data
-ENV FPM_HOST 127.0.0.1
+ENV FPM_HOST 0.0.0.0
 ENV FPM_PORT 9000
 
 # Set up environment, build & install required packages
@@ -145,9 +145,6 @@ COPY config/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY config/php-fpm.d/docker.conf /usr/local/etc/php-fpm.d/docker.conf
 COPY config/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY config/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-
-# Expose FPM port
-EXPOSE ${FPM_PORT}
 
 # Declare volumes
 VOLUME ["/app"]
