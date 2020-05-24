@@ -10,6 +10,9 @@ ENV GEOIP_VERSION 1.1.1
 ENV MEMCACHED_VERSION 3.1.5
 ENV PHPREDIS_VERSION 5.2.2
 
+ENV PHP_POST_MAX_SIZE 140M
+ENV PHP_UPLOAD_MAX_FILESIZE 128M
+
 ENV FPM_USER www-data
 ENV FPM_GROUP www-data
 ENV FPM_HOST 0.0.0.0
@@ -17,6 +20,7 @@ ENV FPM_PORT 9000
 
 # Set up environment, build & install required packages
 RUN echo "### Create user & group" \
+    \
     && groupadd -g $USER_GID -o $USER_LOGIN \
     && useradd -m -u $USER_UID -g $USER_GID -o -s $USER_SHELL $USER_LOGIN \
     \
@@ -143,6 +147,7 @@ COPY config/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY config/php-fpm.d/docker.conf /usr/local/etc/php-fpm.d/docker.conf
 COPY config/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY config/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY config/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Declare volumes
 VOLUME ["/app"]
