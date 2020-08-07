@@ -131,6 +131,12 @@ RUN echo "### Create user & group" \
     \
     && docker-php-ext-install pdo_mysql \
     \
+    && echo "### Install PDO PgSQL PHP extension" \
+    \
+    && apt-get install -y \
+        libpq-dev \
+    && docker-php-ext-install pdo_pgsql \
+    \
     && echo "### Install Redis PHP extension" \
     \
     && mkdir -p /usr/src/php/ext/redis \

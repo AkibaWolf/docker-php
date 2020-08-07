@@ -41,6 +41,7 @@
 - `mysqli`
 - `opcache`
 - `pdo_mysql`
+- `pdo_pgsql`
 - `redis`
 
 ## Usage
