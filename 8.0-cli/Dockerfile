@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-buster
+FROM php:8.0-cli-bullseye
 
 # Set environment variables
 ENV USER_LOGIN user
@@ -6,22 +6,13 @@ ENV USER_UID 1000
 ENV USER_GID 1000
 ENV USER_SHELL /bin/bash
 
-ENV GEOIP_VERSION 1.1.1
-ENV MCRYPT_VERSION 1.0.3
+ENV GEOIP_VERSION 1.3.0
+ENV MCRYPT_VERSION 1.0.4
 ENV MEMCACHED_VERSION 3.1.5
-ENV PHPREDIS_VERSION 5.2.2
-
-ENV PHP_POST_MAX_SIZE 140M
-ENV PHP_UPLOAD_MAX_FILESIZE 128M
-
-ENV FPM_USER www-data
-ENV FPM_GROUP www-data
-ENV FPM_HOST 0.0.0.0
-ENV FPM_PORT 9000
+ENV PHPREDIS_VERSION 5.3.7
 
 # Set up environment, build & install required packages
 RUN echo "### Create user & group" \
-    \
     && groupadd -g $USER_GID -o $USER_LOGIN \
     && useradd -m -u $USER_UID -g $USER_GID -o -s $USER_SHELL $USER_LOGIN \
     \
@@ -67,21 +58,28 @@ RUN echo "### Create user & group" \
     && apt-get install -y \
         libgearman-dev \
     && cd /tmp \
-    && git clone https://github.com/wcgallego/pecl-gearman.git \
-    && cd pecl-gearman \
+    && git clone https://github.com/php/pecl-networking-gearman.git \
+    && cd pecl-networking-gearman \
     && phpize \
     && ./configure \
     && make \ 
     && make install \
-    && rm -rf /tmp/pecl-gearman \
+    && rm -rf /tmp/pecl-networking-gearman \
     && docker-php-ext-enable gearman.so \
     \
     && echo "### Install GeoIP PHP extension" \
     \
     && apt-get install -y \
         libgeoip-dev \
-    && pecl install geoip-$GEOIP_VERSION \
-    && docker-php-ext-enable geoip \
+    && cd /tmp \
+    && docker-php-source extract \
+    && curl -L -o geoip.tgz https://github.com/rlerdorf/geoip/archive/refs/tags/$GEOIP_VERSION.tar.gz \
+    && mkdir geoip \
+    && tar xfz geoip.tgz -C geoip --strip-components 1 \
+    && rm -r geoip.tgz \
+    && mv geoip /usr/src/php/ext/geoip \
+    && docker-php-ext-install -j$(nproc) geoip \
+    && docker-php-source delete \
     \
     && echo "### Install ImageMagick PHP extension" \
     \
@@ -143,26 +141,17 @@ RUN echo "### Create user & group" \
     \
     && mkdir -p /usr/src/php/ext/redis \
     && curl -L https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz | \
-        tar xvz -C /usr/src/php/ext/redis \
-            --strip 1 \
+    tar xvz -C /usr/src/php/ext/redis \
+        --strip 1 \
     && echo 'redis' >> /usr/src/php-available-exts \
     && docker-php-ext-install redis \
     && rm -rf /usr/src/php/ext/redis
 
 # Copy configuration files
 COPY config/php.ini /usr/local/etc/php/php.ini
-COPY config/php-fpm.conf /usr/local/etc/php-fpm.conf
-COPY config/php-fpm.d/docker.conf /usr/local/etc/php-fpm.d/docker.conf
-COPY config/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
-COPY config/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-COPY config/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Declare volumes
 VOLUME ["/app"]
 
 # Set working directory
 WORKDIR /app
-
-# Configure entry point
-COPY docker-entrypoint.sh /usr/local/bin/
-ENTRYPOINT ["docker-entrypoint.sh"]

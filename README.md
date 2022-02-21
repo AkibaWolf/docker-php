@@ -4,8 +4,12 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`7.4-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.4-cli/Dockerfile)
-- [`7.4-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.4-fpm/Dockerfile)
+- [`8.1-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-cli/Dockerfile)
+- [`8.1-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-fpm/Dockerfile)
+- [`8.0-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.0-cli/Dockerfile)
+- [`8.0-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.0-fpm/Dockerfile)
+- [`7.4-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.4-cli/Dockerfile)
+- [`7.4-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.4-fpm/Dockerfile)
 - [`7.3-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.3-cli/Dockerfile)
 - [`7.3-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.3-fpm/Dockerfile)
 - [`7.2-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.2-cli/Dockerfile)
@@ -14,6 +18,8 @@
 - [`7.1-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.1-fpm/Dockerfile)
 - [`7.0-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.0-cli/Dockerfile)
 - [`7.0-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.0-fpm/Dockerfile)
+
+Images prior to 8.x images are based on `php-buster` while newer ones use `php-bullseye`.
 
 ## Pre-installed packages
 
@@ -62,7 +68,7 @@ Docker compose:
 
 ```
 php:
-  image: akibawolf/php:7.4-fpm
+  image: akibawolf/php:8.1-fpm
   container_name: project_php
   working_dir: /app/project
   environment:

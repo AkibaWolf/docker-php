@@ -1,4 +1,4 @@
-FROM php:7.4-fpm-buster
+FROM php:8.0-fpm-bullseye
 
 # Set environment variables
 ENV USER_LOGIN user
@@ -6,10 +6,10 @@ ENV USER_UID 1000
 ENV USER_GID 1000
 ENV USER_SHELL /bin/bash
 
-ENV GEOIP_VERSION 1.1.1
-ENV MCRYPT_VERSION 1.0.3
+ENV GEOIP_VERSION 1.3.0
+ENV MCRYPT_VERSION 1.0.4
 ENV MEMCACHED_VERSION 3.1.5
-ENV PHPREDIS_VERSION 5.2.2
+ENV PHPREDIS_VERSION 5.3.7
 
 ENV PHP_POST_MAX_SIZE 140M
 ENV PHP_UPLOAD_MAX_FILESIZE 128M
@@ -18,6 +18,7 @@ ENV FPM_USER www-data
 ENV FPM_GROUP www-data
 ENV FPM_HOST 0.0.0.0
 ENV FPM_PORT 9000
+
 
 # Set up environment, build & install required packages
 RUN echo "### Create user & group" \
@@ -62,26 +63,38 @@ RUN echo "### Create user & group" \
         --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd \
     \
+    && echo "### Install packages required for accessing GeoIP2 with PHP" \
+    \
+    && apt-get install -y \
+        libgeoip-dev \
+    \
     && echo "### Install Gearman PHP extension" \
     \
     && apt-get install -y \
         libgearman-dev \
     && cd /tmp \
-    && git clone https://github.com/wcgallego/pecl-gearman.git \
-    && cd pecl-gearman \
+    && git clone https://github.com/php/pecl-networking-gearman.git \
+    && cd pecl-networking-gearman \
     && phpize \
     && ./configure \
     && make \ 
     && make install \
-    && rm -rf /tmp/pecl-gearman \
+    && rm -rf /tmp/pecl-networking-gearman \
     && docker-php-ext-enable gearman.so \
     \
     && echo "### Install GeoIP PHP extension" \
     \
     && apt-get install -y \
         libgeoip-dev \
-    && pecl install geoip-$GEOIP_VERSION \
-    && docker-php-ext-enable geoip \
+    && cd /tmp \
+    && docker-php-source extract \
+    && curl -L -o geoip.tgz https://github.com/rlerdorf/geoip/archive/refs/tags/$GEOIP_VERSION.tar.gz \
+    && mkdir geoip \
+    && tar xfz geoip.tgz -C geoip --strip-components 1 \
+    && rm -r geoip.tgz \
+    && mv geoip /usr/src/php/ext/geoip \
+    && docker-php-ext-install -j$(nproc) geoip \
+    && docker-php-source delete \
     \
     && echo "### Install ImageMagick PHP extension" \
     \
