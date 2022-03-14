@@ -19,7 +19,11 @@
 - [`7.0-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.0-cli/Dockerfile)
 - [`7.0-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.0-fpm/Dockerfile)
 
-Images prior to 8.x images are based on `php-buster` while newer ones use `php-bullseye`.
+Base images used:
+
+- `php-stretch` for 7.0
+- `php-buster` for 7.1 and 7.2
+- `php-bullseye` for 7.3 and newer
 
 ## Pre-installed packages
 

@@ -1,4 +1,4 @@
-FROM php:7.1-cli-buster
+FROM php:7.1-fpm-buster
 
 # Set environment variables
 ENV USER_LOGIN user

@@ -1,4 +1,4 @@
-FROM php:7.3-cli-buster
+FROM php:7.3-cli-bullseye
 
 # Set environment variables
 ENV USER_LOGIN user

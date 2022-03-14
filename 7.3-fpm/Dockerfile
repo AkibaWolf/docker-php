@@ -1,4 +1,4 @@
-FROM php:7.3-fpm-buster
+FROM php:7.3-fpm-bullseye
 
 # Set environment variables
 ENV USER_LOGIN user
