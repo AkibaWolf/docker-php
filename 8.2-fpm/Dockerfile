@@ -1,4 +1,4 @@
-FROM php:8.1-cli-bullseye
+FROM php:8.2-fpm-bullseye
 
 # Set environment variables
 ENV USER_LOGIN user
@@ -11,8 +11,18 @@ ENV MCRYPT_VERSION 1.0.4
 ENV MEMCACHED_VERSION 3.1.5
 ENV PHPREDIS_VERSION 5.3.7
 
+ENV PHP_POST_MAX_SIZE 140M
+ENV PHP_UPLOAD_MAX_FILESIZE 128M
+
+ENV FPM_USER www-data
+ENV FPM_GROUP www-data
+ENV FPM_HOST 0.0.0.0
+ENV FPM_PORT 9000
+
+
 # Set up environment, build & install required packages
 RUN echo "### Create user & group" \
+    \
     && groupadd -g $USER_GID -o $USER_LOGIN \
     && useradd -m -u $USER_UID -g $USER_GID -o -s $USER_SHELL $USER_LOGIN \
     \
@@ -52,6 +62,11 @@ RUN echo "### Create user & group" \
         --with-freetype=/usr/include/ \
         --with-jpeg=/usr/include/ \
     && docker-php-ext-install gd \
+    \
+    && echo "### Install packages required for accessing GeoIP2 with PHP" \
+    \
+    && apt-get install -y \
+        libgeoip-dev \
     \
     && echo "### Install Gearman PHP extension" \
     \
@@ -153,17 +168,26 @@ RUN echo "### Create user & group" \
     \
     && mkdir -p /usr/src/php/ext/redis \
     && curl -L https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz | \
-    tar xvz -C /usr/src/php/ext/redis \
-        --strip 1 \
+        tar xvz -C /usr/src/php/ext/redis \
+            --strip 1 \
     && echo 'redis' >> /usr/src/php-available-exts \
     && docker-php-ext-install redis \
     && rm -rf /usr/src/php/ext/redis
 
 # Copy configuration files
 COPY config/php.ini /usr/local/etc/php/php.ini
+COPY config/php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY config/php-fpm.d/docker.conf /usr/local/etc/php-fpm.d/docker.conf
+COPY config/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
+COPY config/php-fpm.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY config/supervisor/conf.d/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Declare volumes
 VOLUME ["/app"]
 
 # Set working directory
 WORKDIR /app
+
+# Configure entry point
+COPY docker-entrypoint.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint.sh"]

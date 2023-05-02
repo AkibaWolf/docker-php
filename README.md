@@ -4,8 +4,10 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`8.1-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-cli/Dockerfile)
-- [`8.1-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-fpm/Dockerfile)
+- [`8.2-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-cli/Dockerfile)
+- [`8.2-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-fpm/Dockerfile)
+- [`8.1-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-cli/Dockerfile)
+- [`8.1-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-fpm/Dockerfile)
 - [`8.0-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.0-cli/Dockerfile)
 - [`8.0-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.0-fpm/Dockerfile)
 - [`7.4-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/7.4-cli/Dockerfile)
