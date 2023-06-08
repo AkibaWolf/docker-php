@@ -11,6 +11,7 @@ ENV MCRYPT_VERSION 1.0.0
 ENV MEMCACHED_VERSION 3.1.5
 ENV PHPREDIS_VERSION 5.2.2
 
+ENV PHP_MEMORY_LIMIT 128M
 ENV PHP_POST_MAX_SIZE 140M
 ENV PHP_UPLOAD_MAX_FILESIZE 128M
 
@@ -18,6 +19,7 @@ ENV FPM_USER www-data
 ENV FPM_GROUP www-data
 ENV FPM_HOST 0.0.0.0
 ENV FPM_PORT 9000
+
 
 # Set up environment, build & install required packages
 RUN echo "### Create user & group" \

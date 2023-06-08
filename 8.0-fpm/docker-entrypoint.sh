@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sed -i -e "s/\$ENV_PHP_MEMORY_LIMIT/${PHP_MEMORY_LIMIT}/g" /usr/local/etc/php/php.ini
 sed -i -e "s/\$ENV_PHP_POST_MAX_SIZE/${PHP_POST_MAX_SIZE}/g" /usr/local/etc/php/php.ini
 sed -i -e "s/\$ENV_PHP_UPLOAD_MAX_FILESIZE/${PHP_UPLOAD_MAX_FILESIZE}/g" /usr/local/etc/php/php.ini
 

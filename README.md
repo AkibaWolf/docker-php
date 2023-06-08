@@ -74,7 +74,7 @@ Docker compose:
 
 ```
 php:
-  image: akibawolf/php:8.1-fpm
+  image: akibawolf/php:fpm-latest
   container_name: project_php
   working_dir: /app/project
   environment:
@@ -117,8 +117,13 @@ php:
 | FPM_GROUP               | www-data      |
 | FPM_HOST                | 0.0.0.0       |
 | FPM_PORT                | 9000          |
+| PHP_MEMORY_LIMIT _\*_   | 128M          |
 | PHP_POST_MAX_SIZE       | 140M          |
 | PHP_UPLOAD_MAX_FILESIZE | 128M          |
+
+_\* Available for images that provide PHP 7.1 and higher._
+
+## Configuration
 
 You can also inject your version of configuration files as needed:
 
