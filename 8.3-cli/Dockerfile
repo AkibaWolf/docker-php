@@ -34,7 +34,8 @@ RUN apt install -y --no-install-recommends \
     libmemcached-dev \
     libonig-dev \
     libpng-dev \
-    libpq-dev \ 
+    libpq-dev \
+    libssl-dev \
     libwebp-dev \
     libxslt-dev \
     libzip-dev \
@@ -97,7 +98,7 @@ RUN cd /tmp \
     && cd pecl-networking-gearman \
     && phpize \
     && ./configure \
-    && make \ 
+    && make \
     && make install \
     && rm -rf /tmp/pecl-networking-gearman \
     && docker-php-ext-enable gearman.so
