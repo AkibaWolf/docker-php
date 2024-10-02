@@ -4,8 +4,10 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`8.2-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-cli/Dockerfile)
-- [`8.2-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-fpm/Dockerfile)
+- [`8.3-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-fpm/Dockerfile)
+- [`8.3-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-cli/Dockerfile)
+- [`8.2-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-cli/Dockerfile)
+- [`8.2-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-fpm/Dockerfile)
 - [`8.1-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-cli/Dockerfile)
 - [`8.1-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-fpm/Dockerfile)
 - [`8.0-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.0-cli/Dockerfile)
@@ -55,6 +57,15 @@ Base images used:
 - `pdo_mysql`
 - `pdo_pgsql`
 - `redis`
+
+### For PHP 8.3
+
+- `apcu`
+- `pcntl`
+- `sockets`
+- `xml`
+- `xsl`
+- `zip`
 
 ## Usage
 
