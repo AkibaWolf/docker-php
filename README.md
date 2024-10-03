@@ -58,7 +58,7 @@ Base images used:
 - `pdo_pgsql`
 - `redis`
 
-### For PHP 8.3
+### For PHP 8.2+
 
 - `apcu`
 - `pcntl`
