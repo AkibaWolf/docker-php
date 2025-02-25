@@ -92,12 +92,32 @@ Docker compose:
 ```
 php:
   image: akibawolf/php:fpm-latest
-  container_name: project_php
+  container_name: project-php
   working_dir: /app/project
   environment:
     FPM_PORT: 9001
   volumes:
-    - ./web/project:/app/web/project
+    - ./web/project:/app/project
+  networks:
+    - default
+  expose:
+    - 9001
+```
+
+Docker compose with Xdebug:
+
+```
+php:
+  image: akibawolf/php:8.4-xdebug-fpm
+  container_name: project-php
+  working_dir: /app/project
+  environment:
+    FPM_PORT: 9001
+    PHP_IDE_CONFIG: serverName=yourdomain.com
+  volumes:
+    - ./web/project:/app/project
+  extra_hosts:
+    - host.docker.internal:host-gateway
   networks:
     - default
   expose:
