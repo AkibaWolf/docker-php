@@ -4,8 +4,11 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`8.3-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-fpm/Dockerfile)
-- [`8.3-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-cli/Dockerfile)
+- [`8.4-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-fpm/Dockerfile)
+- [`8.4-cli`, `cli-latest`, `latest` (
+  _Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-cli/Dockerfile)
+- [`8.3-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-fpm/Dockerfile)
+- [`8.3-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-cli/Dockerfile)
 - [`8.2-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-cli/Dockerfile)
 - [`8.2-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-fpm/Dockerfile)
 - [`8.1-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-cli/Dockerfile)
@@ -43,29 +46,26 @@ Base images used:
 
 ## Pre-configured extensions
 
+- `apcu` (for PHP >= 8.2.0)
 - `bcmath`
 - `gd`
 - `gearman`
-- `geoip`
+- `geoip` (for PHP < 8.4.0)
 - `imagick`
 - `intl`
 - `mbstring`
-- `mcrypt`
+- `mcrypt` (for PHP < 8.4.0)
 - `memcached`
 - `mysqli`
 - `opcache`
+- `pcntl` (for PHP >= 8.2.0)
 - `pdo_mysql`
 - `pdo_pgsql`
 - `redis`
-
-### For PHP 8.2+
-
-- `apcu`
-- `pcntl`
-- `sockets`
-- `xml`
-- `xsl`
-- `zip`
+- `sockets` (for PHP >= 8.2.0)
+- `xml` (for PHP >= 8.2.0)
+- `xsl` (for PHP >= 8.2.0)
+- `zip` (for PHP >= 8.2.0)
 
 ## Usage
 
@@ -101,7 +101,7 @@ php:
 ## Configuration defaults
 
 | Name                   | Value                             |
-| ---------------------- | --------------------------------- |
+|------------------------|-----------------------------------|
 | short_open_tag         | Off                               |
 | implicit_flush         | Off                               |
 | max_execution_time     | 30                                |
@@ -123,12 +123,12 @@ php:
 ## FPM environment variables
 
 | Name                    | Default value |
-| ----------------------- | ------------- |
+|-------------------------|---------------|
 | FPM_USER                | www-data      |
 | FPM_GROUP               | www-data      |
 | FPM_HOST                | 0.0.0.0       |
 | FPM_PORT                | 9000          |
-| PHP_MEMORY_LIMIT _\*_   | 128M          |
+| PHP_MEMORY_LIMIT \*     | 128M          |
 | PHP_POST_MAX_SIZE       | 140M          |
 | PHP_UPLOAD_MAX_FILESIZE | 128M          |
 
