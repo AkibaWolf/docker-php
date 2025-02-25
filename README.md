@@ -4,13 +4,18 @@
 
 ## Supported tags and respective `Dockerfile` links
 
+- [`8.4-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-cli/Dockerfile)
+- [`8.4-cli-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-cli-xdebug/Dockerfile)
 - [`8.4-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-fpm/Dockerfile)
-- [`8.4-cli`, `cli-latest`, `latest` (
-  _Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-cli/Dockerfile)
-- [`8.3-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-fpm/Dockerfile)
+- [`8.4-fpm-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-fpm-xdebug/Dockerfile)
 - [`8.3-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-cli/Dockerfile)
+- [`8.3-cli-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-cli-xdebug/Dockerfile)
+- [`8.3-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-fpm/Dockerfile)
+- [`8.3-fpm-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-fpm-xdebug/Dockerfile)
 - [`8.2-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-cli/Dockerfile)
+- [`8.2-cli-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-cli-xdebug/Dockerfile)
 - [`8.2-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-fpm/Dockerfile)
+- [`8.2-fpm-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.2-fpm-xdebug/Dockerfile)
 - [`8.1-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-cli/Dockerfile)
 - [`8.1-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.1-fpm/Dockerfile)
 - [`8.0-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.0-cli/Dockerfile)
@@ -63,6 +68,7 @@ Base images used:
 - `pdo_pgsql`
 - `redis`
 - `sockets` (for PHP >= 8.2.0)
+- `xdebug` (for images with `xdebug` suffix)
 - `xml` (for PHP >= 8.2.0)
 - `xsl` (for PHP >= 8.2.0)
 - `zip` (for PHP >= 8.2.0)
@@ -132,7 +138,19 @@ php:
 | PHP_POST_MAX_SIZE       | 140M          |
 | PHP_UPLOAD_MAX_FILESIZE | 128M          |
 
-_\* Available for images that provide PHP 7.1 and higher._
+_\* Available in images that provide PHP 7.1 and higher._
+
+## Xdebug environment variables
+
+| Name                      | Default value        |
+|---------------------------|----------------------|
+| PHP_IDE_CONFIG            | serverName=localhost |
+| XDEBUG_CLIENT_HOST        | host.docker.internal |
+| XDEBUG_CLIENT_PORT        | 9003                 |
+| XDEBUG_IDE_KEY            | PHPSTORM             |
+| XDEBUG_START_WITH_REQUEST | yes                  |
+
+_Available in FPM Xdebug images._
 
 ## Configuration
 
@@ -142,3 +160,4 @@ You can also inject your version of configuration files as needed:
 - `/usr/local/etc/php-fpm.conf`
 - `/usr/local/etc/php-fpm.d/www.conf`
 - `/etc/supervisor/conf.d/supervisord.conf`
+- `/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini`
