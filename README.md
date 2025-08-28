@@ -35,14 +35,18 @@ Base images used:
 
 - `php-stretch` for 7.0
 - `php-buster` for 7.1 and 7.2
-- `php-bullseye` for 7.3 and newer
+- `php-bullseye` for 7.3, 7.4, 8.0 and 8.1
+- `php-bookworm` for 8.2
+- `php-trixie` for 8.3 and newer
 
 ## Pre-installed packages
 
 - `curl`
+- `ffmpeg` (for PHP >= 8.3.0)
 - `git`
 - `ping`
 - `mc`
+- `mplayer` (for PHP >= 8.3.0)
 - `nano`
 - `supervisor`
 - `unzip`
@@ -59,7 +63,7 @@ Base images used:
 - `imagick`
 - `intl`
 - `mbstring`
-- `mcrypt` (for PHP < 8.4.0)
+- `mcrypt`
 - `memcached`
 - `mysqli`
 - `opcache`

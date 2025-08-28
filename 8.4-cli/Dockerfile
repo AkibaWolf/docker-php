@@ -1,4 +1,4 @@
-FROM php:8.4.4-cli-bookworm AS os-base
+FROM php:8.4.11-cli-trixie AS os-base
 
 # Set environment variables
 ENV USER_LOGIN=user
@@ -6,6 +6,7 @@ ENV USER_UID=1000
 ENV USER_GID=1000
 ENV USER_SHELL=/bin/bash
 
+ENV MCRYPT_VERSION=1.0.9
 ENV MEMCACHED_VERSION=3.3.0
 ENV PHPREDIS_VERSION=6.1.0
 
@@ -13,20 +14,31 @@ ENV PHPREDIS_VERSION=6.1.0
 RUN groupadd -g $USER_GID -o $USER_LOGIN
 RUN useradd -m -u $USER_UID -g $USER_GID -o -s $USER_SHELL $USER_LOGIN
 
+# Enable additional repositories
+RUN echo "deb http://www.deb-multimedia.org trixie main non-free" >> /etc/apt/sources.list \
+    && echo "deb-src http://www.deb-multimedia.org trixie main non-free" >> /etc/apt/sources.list \
+    && apt update -y --allow-insecure-repositories \
+    && apt install -y --allow-unauthenticated deb-multimedia-keyring
+
 # Install base packages
 RUN apt update
 RUN apt upgrade -y
 RUN apt install -y --no-install-recommends \
     curl \
+    ffmpeg \
     git \
     inetutils-ping \
+    libavif-dev \
+    libde265-dev \
     libfreetype6-dev \
     libgearman-dev \
     libgif-dev \
+    libheif-dev \
     libicu-dev \
     libjpeg-dev \
     libjpeg62-turbo-dev \
     libmagickwand-dev \
+    libmcrypt-dev \
     libmemcached-dev \
     libonig-dev \
     libpng-dev \
@@ -36,6 +48,7 @@ RUN apt install -y --no-install-recommends \
     libxslt-dev \
     libzip-dev \
     mc \
+    mplayer \
     nano \
     net-tools \
     pkg-config \
@@ -78,6 +91,7 @@ FROM php-bcmath-base AS php-gd-base
 
 # Install GD PHP extension
 # Required packages:
+#  - libavif-dev
 #  - libfreetype6-dev
 #  - libgif-dev
 #  - libicu-dev
@@ -87,6 +101,7 @@ FROM php-bcmath-base AS php-gd-base
 #  - libwebp-dev
 #  - zlib1g-dev
 RUN docker-php-ext-configure gd \
+    --with-avif=/usr/include/ \
     --with-freetype=/usr/include/ \
     --with-jpeg=/usr/include/ \
     --with-webp=/usr/include/
@@ -115,6 +130,9 @@ FROM php-gearman-base AS php-imagemagick-base
 
 # Install ImageMagick PHP extension
 # Required packages:
+#  - libavif-dev
+#  - libde265-dev
+#  - libheif-dev
 #  - libmagickwand-dev
 RUN install-php-extensions imagick
 
@@ -135,7 +153,26 @@ RUN docker-php-ext-install mbstring
 
 # --------------------------------------------------------------------------------------
 
-FROM php-mbstring-base AS php-memcached-base
+FROM php-mbstring-base AS php-mcrypt-base
+
+# Install Mcrypt PHP extension
+# Required packages:
+#  - libmcrypt-dev
+RUN cd /tmp \
+    && wget https://pecl.php.net/get/mcrypt-$MCRYPT_VERSION.tgz \
+    && tar -xf mcrypt-$MCRYPT_VERSION.tgz \
+    && cd mcrypt-$MCRYPT_VERSION \
+    && phpize \
+    && ./configure \
+    && make \
+    && cp modules/*.so $(pecl config-get ext_dir) \
+    && cd .. \
+    && rm -rf mcrypt-$MCRYPT_VERSION.tgz mcrypt-$MCRYPT_VERSION \
+    && docker-php-ext-enable mcrypt
+
+# --------------------------------------------------------------------------------------
+
+FROM php-mcrypt-base AS php-memcached-base
 
 # Install Memcached PHP extension
 # Required packages:

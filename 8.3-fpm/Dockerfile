@@ -1,4 +1,4 @@
-FROM php:8.3.12-fpm-bookworm AS os-base
+FROM php:8.3.24-fpm-trixie AS os-base
 
 # Set environment variables
 ENV USER_LOGIN=user
@@ -24,17 +24,27 @@ ENV FPM_PORT=9000
 RUN groupadd -g $USER_GID -o $USER_LOGIN
 RUN useradd -m -u $USER_UID -g $USER_GID -o -s $USER_SHELL $USER_LOGIN
 
+# Enable additional repositories
+RUN echo "deb http://www.deb-multimedia.org trixie main non-free" >> /etc/apt/sources.list \
+    && echo "deb-src http://www.deb-multimedia.org trixie main non-free" >> /etc/apt/sources.list \
+    && apt update -y --allow-insecure-repositories \
+    && apt install -y --allow-unauthenticated deb-multimedia-keyring
+
 # Install base packages
 RUN apt update
 RUN apt upgrade -y
 RUN apt install -y --no-install-recommends \
     curl \
+    ffmpeg \
     git \
     inetutils-ping \
+    libavif-dev \
+    libde265-dev \
     libfreetype6-dev \
     libgearman-dev \
     libgeoip-dev \
     libgif-dev \
+    libheif-dev \
     libicu-dev \
     libjpeg-dev \
     libjpeg62-turbo-dev \
@@ -49,6 +59,7 @@ RUN apt install -y --no-install-recommends \
     libxslt-dev \
     libzip-dev \
     mc \
+    mplayer \
     nano \
     net-tools \
     pkg-config \
@@ -81,6 +92,7 @@ FROM php-bcmath-base AS php-gd-base
 
 # Install GD PHP extension
 # Required packages:
+#  - libavif-dev
 #  - libfreetype6-dev
 #  - libgif-dev
 #  - libicu-dev
@@ -90,6 +102,7 @@ FROM php-bcmath-base AS php-gd-base
 #  - libwebp-dev
 #  - zlib1g-dev
 RUN docker-php-ext-configure gd \
+    --with-avif=/usr/include/ \
     --with-freetype=/usr/include/ \
     --with-jpeg=/usr/include/ \
     --with-webp=/usr/include/
@@ -135,6 +148,9 @@ FROM php-geoip-base AS php-imagemagick-base
 
 # Install ImageMagick PHP extension
 # Required packages:
+#  - libavif-dev
+#  - libde265-dev
+#  - libheif-dev
 #  - libmagickwand-dev
 RUN pecl install imagick \
     && docker-php-ext-enable imagick
