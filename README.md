@@ -4,9 +4,13 @@
 
 ## Supported tags and respective `Dockerfile` links
 
-- [`8.4-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-cli/Dockerfile)
+- [`8.5-cli`, `cli-latest`, `latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-cli/Dockerfile)
+- [`8.5-cli-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-cli-xdebug/Dockerfile)
+- [`8.5-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-fpm/Dockerfile)
+- [`8.5-fpm-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-fpm-xdebug/Dockerfile)
+- [`8.4-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-cli/Dockerfile)
 - [`8.4-cli-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-cli-xdebug/Dockerfile)
-- [`8.4-fpm`, `fpm-latest` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-fpm/Dockerfile)
+- [`8.4-fpm` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-fpm/Dockerfile)
 - [`8.4-fpm-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.4-fpm-xdebug/Dockerfile)
 - [`8.3-cli` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-cli/Dockerfile)
 - [`8.3-cli-xdebug` (_Dockerfile_)](https://github.com/AkibaWolf/docker-php/tree/master/8.3-cli-xdebug/Dockerfile)
@@ -66,7 +70,7 @@ Base images used:
 - `mcrypt`
 - `memcached`
 - `mysqli`
-- `opcache`
+- `opcache` (for PHP < 8.5.0)
 - `pcntl` (for PHP >= 8.2.0)
 - `pdo_mysql`
 - `pdo_pgsql`
