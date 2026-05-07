@@ -1,4 +1,4 @@
-FROM php:8.5.0-fpm-trixie AS os-base
+FROM php:8.5.5-fpm-trixie AS os-base
 
 # Set environment variables
 ENV USER_LOGIN=user
